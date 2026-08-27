@@ -10,6 +10,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 import java.util.Enumeration;
 
 @WebServlet(name = "Ciclo", urlPatterns = {"/aulas/rotalogica/servlet/ciclo"})
@@ -30,6 +31,25 @@ public class Ciclo extends HttpServlet {
             String header = headerNames.nextElement().toString();
             System.out.println(header + " " + req.getHeader(header));
         }
+        
+            // https://www.w3schools.com/tools/tool_mime_types.php
+        
+            String html = ("<!DOCTYPE html>");
+            html += ("<html>");
+            html += ("<head>");
+            html += ("<title>Servlet Ciclo</title>");
+            html += ("</head>");
+            html += ("<body>");
+            html += ("<h1>Servlet Ciclo at </h1>");
+            html += ("</body>");
+            html += ("</html>");
+            
+            resp.setContentType("text/calendar");
+            PrintWriter pw = resp.getWriter();
+            pw.print(html);
+            pw.close();
+        
+        
 
     }
 
