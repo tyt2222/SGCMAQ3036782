@@ -84,6 +84,12 @@ public class GetPost extends HttpServlet {
         processRequest(req, resp);
     }
     
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        System.out.println("\n\npost\n\n");
+        processRequest(req, resp);
+    }
+    
     
 
 
