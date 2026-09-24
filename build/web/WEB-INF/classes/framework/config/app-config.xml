@@ -1,4 +1,4 @@
 <config>
 	<settings verbose="true"/>
-	<database url="jdbc:mysql://localhost:3307/sgcm_prof" user="root" password="rootroot"/>
+	<database url="jdbc:mysql://localhost:3307/SGCMAQ3036782" user="root" password="root"/>
 </config>

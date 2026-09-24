@@ -1,4 +1,6 @@
 package framework.dao;
+import framework.util.Hash;
+
 
 // Bean -- Objeto Persistente.
 public class Usuario {
@@ -34,11 +36,14 @@ public class Usuario {
         return senha;
     }
 
-    public void setSenha(String senha) {
+    public void setSenha(String senha) throws Exception{
         if( senha == null ) {
             throw new IllegalArgumentException("senha não pode ser null");
         }
-        this.senha = senha;
+        
+        String aux = Integer.toString(getId()) + senha;
+        String hash = Hash.stringToHash(senha, "SHA-256");
+        this.senha = hash;
     }
 
     @Override

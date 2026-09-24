@@ -12,7 +12,7 @@ import java.sql.Statement;
 public class UsuarioDAO extends DataAccessObject <Usuario> {
 
     @Override
-    public void insert(Usuario t) throws SQLException {
+    public void insert(Usuario t) throws Exception {
         
         Connection connection = DataBaseConnections.getInstance().getConnection();
         
@@ -36,7 +36,7 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
     }
 
     @Override
-    public void update(Usuario t) throws SQLException {
+    public void update(Usuario t) throws Exception {
         
         Connection connection = DataBaseConnections.getInstance().getConnection();
         
@@ -60,7 +60,7 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
     }
 
     @Override
-    public void delete(Usuario t) throws SQLException {
+    public void delete(Usuario t) throws Exception {
         
         Connection connection = DataBaseConnections.getInstance().getConnection();
         
@@ -82,7 +82,7 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
     }
 
     @Override
-    public Usuario getUnique(Object... values) throws SQLException {
+    public Usuario getUnique(Object... values) throws Exception {
         
         Usuario resultado = null;
         
@@ -120,7 +120,7 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
     }
 
     @Override
-    public ArrayList<Usuario> getAll() throws SQLException {
+    public ArrayList<Usuario> getAll() throws Exception {
         
         ArrayList<Usuario> resultado = new ArrayList<>();
         

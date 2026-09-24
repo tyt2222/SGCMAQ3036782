@@ -14,7 +14,7 @@
         %>
 
         <h1>Usuários</h1>
-        <a href="<%= request.getContextPath() %>/home/app/adm/usuario_form.jsp">Novo usuário</a>
+        <a href="<%= request.getContextPath()%>/home/app/adm/usuario_form.jsp">Novo usuário</a>
 
         <table>
             <tr>
@@ -23,14 +23,14 @@
                 <th></th>
                 <th></th>
             </tr>
-            <% for (Usuario usuario : lista) { %>
-                <tr>
-                    <td><%= usuario.getId() %></td>
-                    <td><%= usuario.getNome() %></td>
-                    <td><a href="<%= request.getContextPath() %>/home/app/adm/usuario_form.jsp?id=<%= usuario.getId() %>">Alterar</a></td>
-                    <td><a href="#">Excluir</a></td>
-                </tr>
-            <% } %>
+            <% for (Usuario usuario : lista) {%>
+            <tr>
+                <td><%= usuario.getId()%></td>
+                <td><%= usuario.getNome()%></td>
+                <td><a href="<%= request.getContextPath()%>/home/app/adm/usuario_form.jsp?id=<%= usuario.getId()%>">Alterar</a></td>
+                <td> <a href="<%= request.getContextPath()%>/home?task=usuario&action=delete&id=<%= usuario.getId()%>" onclick="return confirm('Tem certeza que deseja excluir este usuário? <%= usuario.getNome()%>');">Excluir</a></td>
+            </tr>
+            <% }%>
         </table>
     </body>
 </html>

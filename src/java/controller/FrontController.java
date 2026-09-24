@@ -50,9 +50,19 @@ public class FrontController extends HttpServlet {
         req.getRequestDispatcher("/home/login.jsp").forward(req, resp);
     }
 
-    private void doGetUsuario(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        req.getRequestDispatcher("/home/app/adm/usuario.jsp").forward(req, resp);
+    private void doGetUsuario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        
+        String action = req.getParameter("action");
+        
+        if ((action != null) && (action.equals("delete"))) {
+            int id = Integer.parseInt(req.getParameter("id"));
+            Usuario us = new Usuario(id);
+            UsuarioDAO dao = new UsuarioDAO();
+            dao.delete(us);
+        }
+        
+        req.getRequestDispatcher("home/app/adm/usuario.jsp").forward(req, resp);
+        
     }
 
     private void doPostUsuario(HttpServletRequest req, HttpServletResponse resp)
@@ -75,5 +85,5 @@ public class FrontController extends HttpServlet {
 
         resp.sendRedirect(req.getContextPath() + "/home?task=usuario");
     }
-    
+
 }
