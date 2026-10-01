@@ -16,13 +16,14 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
         
         Connection connection = DataBaseConnections.getInstance().getConnection();
         
-        String dml = "INSERT INTO usuario (id, nome, senha) values (?, ?, ?)";
+        String dml = "INSERT INTO usuario (id, nome, senha, tipo_usuario_id) values (?, ?, ?, ?)";
         
         PreparedStatement preparedStatement = connection.prepareStatement(dml);
         
         preparedStatement.setInt( 1, t.getId() );
         preparedStatement.setString( 2, t.getNome() );
         preparedStatement.setString( 3, t.getSenha() );
+        preparedStatement.setInt( 4, t.getTipoUsuario().getId() );
         
         if( AppConfig.getInstance().getConfig("settings", "verbose").equals("true") ) {
             System.out.println(preparedStatement);
@@ -40,13 +41,14 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
         
         Connection connection = DataBaseConnections.getInstance().getConnection();
         
-        String dml = "UPDATE usuario SET nome = ?, senha = ? WHERE id = ?";
+        String dml = "UPDATE usuario SET nome = ?, senha = ?, tipo_usuario_id = ? WHERE id = ?";
         
         PreparedStatement preparedStatement = connection.prepareStatement(dml);
         
         preparedStatement.setString( 1, t.getNome() );
         preparedStatement.setString( 2, t.getSenha() );
-        preparedStatement.setInt( 3, t.getId() );
+        preparedStatement.setInt( 3, t.getTipoUsuario().getId() );
+        preparedStatement.setInt( 4, t.getId() );
         
         if( AppConfig.getInstance().getConfig("settings", "verbose").equals("true") ) {
             System.out.println(preparedStatement);
@@ -108,6 +110,7 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
             
             resultado.setNome( (String) resultSet.getObject(2) );
             resultado.setSenha( (String) resultSet.getObject(3) );
+            resultado.setTipoUsuario( new TipoUsuario( (int) resultSet.getObject(4) ) );
             
         }
         
@@ -137,6 +140,7 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
             Usuario usuario = new Usuario( (int) resultSet.getObject( 1 ) );
             usuario.setNome( (String) resultSet.getObject( 2 ) );
             usuario.setSenha( (String) resultSet.getObject( 3 ) );
+            usuario.setTipoUsuario( new TipoUsuario( (int) resultSet.getObject(4) ) );
             
             resultado.add(usuario);
             

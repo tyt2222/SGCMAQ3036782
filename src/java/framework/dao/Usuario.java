@@ -8,9 +8,18 @@ public class Usuario {
     private int id;
     private String nome;
     private String senha;
+    private TipoUsuario tipoUsuario;
 
     public Usuario(int id) {
         setId(id);
+    }
+
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
     }
 
     public int getId() {
@@ -48,7 +57,7 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "(" + getId() + ", " + getNome() + ", " + getSenha() + ")";
+        return "(" + getId() + ", " + getNome() + ", " + getSenha() + ", " + (getTipoUsuario() != null ? getTipoUsuario().getId() : "null") + ")";
     }
     
 }

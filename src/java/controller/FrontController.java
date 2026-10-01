@@ -71,10 +71,20 @@ public class FrontController extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         String nome = req.getParameter("nome");
         String senha = req.getParameter("senha");
+        String tipoUsuarioIdStr = req.getParameter("tipo_usuario_id");
 
         Usuario usuario = new Usuario(id);
         usuario.setNome(nome);
         usuario.setSenha(senha);
+        
+        if (tipoUsuarioIdStr != null && !tipoUsuarioIdStr.isEmpty()) {
+            framework.dao.TipoUsuario tipoUsuario = new framework.dao.TipoUsuario(Integer.parseInt(tipoUsuarioIdStr));
+            usuario.setTipoUsuario(tipoUsuario);
+        } else {
+            // Default ou erro se não tiver tipo_usuario_id, usando 1 como teste provisório
+            framework.dao.TipoUsuario tipoUsuario = new framework.dao.TipoUsuario(1);
+            usuario.setTipoUsuario(tipoUsuario);
+        }
 
         UsuarioDAO dao = new UsuarioDAO();
         if ("new".equals(action)) {
