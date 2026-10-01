@@ -3,10 +3,10 @@ package framework.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import framework.config.AppConfig;
+import framework.dao.DataAccessObject;
+import framework.dao.DataBaseConnections;
 import java.sql.Statement;
 
 public class UsuarioDAO extends DataAccessObject <Usuario> {
@@ -23,7 +23,7 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
         preparedStatement.setInt( 1, t.getId() );
         preparedStatement.setString( 2, t.getNome() );
         preparedStatement.setString( 3, t.getSenha() );
-        preparedStatement.setInt( 4, t.getTipoUsuario().getId() );
+        preparedStatement.setInt( 4, t.getTipoUsuarioId() );
         
         if( AppConfig.getInstance().getConfig("settings", "verbose").equals("true") ) {
             System.out.println(preparedStatement);
@@ -47,7 +47,7 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
         
         preparedStatement.setString( 1, t.getNome() );
         preparedStatement.setString( 2, t.getSenha() );
-        preparedStatement.setInt( 3, t.getTipoUsuario().getId() );
+        preparedStatement.setInt(3, t.getTipoUsuarioId() );
         preparedStatement.setInt( 4, t.getId() );
         
         if( AppConfig.getInstance().getConfig("settings", "verbose").equals("true") ) {
@@ -109,8 +109,8 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
             resultado = new Usuario( (int) resultSet.getObject(1) );
             
             resultado.setNome( (String) resultSet.getObject(2) );
-            resultado.setSenha( (String) resultSet.getObject(3) );
-            resultado.setTipoUsuario( new TipoUsuario( (int) resultSet.getObject(4) ) );
+            resultado.setSenhaHash( (String) resultSet.getObject(3) );
+            resultado.setTipoUsuarioId( (int) resultSet.getObject(4) );
             
         }
         
@@ -139,8 +139,8 @@ public class UsuarioDAO extends DataAccessObject <Usuario> {
             
             Usuario usuario = new Usuario( (int) resultSet.getObject( 1 ) );
             usuario.setNome( (String) resultSet.getObject( 2 ) );
-            usuario.setSenha( (String) resultSet.getObject( 3 ) );
-            usuario.setTipoUsuario( new TipoUsuario( (int) resultSet.getObject(4) ) );
+            usuario.setSenhaHash( (String) resultSet.getObject( 3 ) );
+            usuario.setTipoUsuarioId( (int) resultSet.getObject(4) );
             
             resultado.add(usuario);
             

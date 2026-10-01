@@ -1,99 +1,187 @@
 package controller;
 
-import framework.dao.Usuario;
-import framework.dao.UsuarioDAO;
-import framework.log.ExceptionLogTrack;
+import framework.dao.TipoUsuario;
+import framework.dao.TipoUsuarioDAO;
+import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import framework.log.ExceptionLogTrack;
+import model.Usuario;
+import model.UsuarioDAO;
 
 public class FrontController extends HttpServlet {
 
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
         String task = req.getParameter("task");
-
+        
         try {
-            if ("usuario".equals(task)) {
-                doGetUsuario(req, resp);
-            } else {
-                doDefault(req, resp);
+        
+            switch (task) {
+
+                case "tipousuario": doGetTipoUsuario(req, resp); break;
+                
+                case "usuario": doGetUsuario(req, resp); break;
+
+                case null:
+                default:
+                    doDefault(req, resp);
+
             }
-        } catch (Exception ex) {
+            
+        } catch(Exception ex) {
             ExceptionLogTrack.getInstance().addLog(ex);
-            throw new ServletException(ex);
+            throw new ServletException( ex );
         }
+        
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
         String task = req.getParameter("task");
-
+        
         try {
-            if ("usuario".equals(task)) {
-                doPostUsuario(req, resp);
-            } else {
-                doDefault(req, resp);
+        
+            switch (task) {
+
+                case "tipousuario": doPostTipoUsuario(req, resp); break;
+                
+                case "usuario": doPostUsuario(req, resp); break;
+
+                case null:
+                default:
+                    doDefault(req, resp);
+
             }
-        } catch (Exception ex) {
+            
+        } catch(Exception ex) {
             ExceptionLogTrack.getInstance().addLog(ex);
-            throw new ServletException(ex);
+            throw new ServletException( ex );
         }
+        
     }
 
-    private void doDefault(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
+
+    
+    
+    private void doDefault(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        
         req.getRequestDispatcher("/home/login.jsp").forward(req, resp);
+        
     }
-
+    
+    
+    
+    
+    private void doGetTipoUsuario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        
+        String action = req.getParameter("action");
+        
+        if( ( action != null ) && ( action.equals("delete") ) ) {
+            
+            int id = Integer.parseInt( req.getParameter("id") );
+            
+            TipoUsuario usTp = new TipoUsuario(id); // bean
+            
+            TipoUsuarioDAO dao = new TipoUsuarioDAO(); // dao
+            
+            dao.delete(usTp);
+            
+        }
+        
+        req.getRequestDispatcher("/home/app/adm/tipousuario.jsp").forward(req, resp);
+        
+        
+    }
+    
     private void doGetUsuario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         
         String action = req.getParameter("action");
         
-        if ((action != null) && (action.equals("delete"))) {
-            int id = Integer.parseInt(req.getParameter("id"));
-            Usuario us = new Usuario(id);
-            UsuarioDAO dao = new UsuarioDAO();
+        if( ( action != null ) && ( action.equals("delete") ) ) {
+            
+            int id = Integer.parseInt( req.getParameter("id") );
+            
+            Usuario us = new Usuario(id); // bean
+            
+            UsuarioDAO dao = new UsuarioDAO(); // dao
+            
             dao.delete(us);
+            
         }
         
-        req.getRequestDispatcher("home/app/adm/usuario.jsp").forward(req, resp);
+        req.getRequestDispatcher("/home/app/adm/usuario.jsp").forward(req, resp);
+        
         
     }
-
-    private void doPostUsuario(HttpServletRequest req, HttpServletResponse resp)
-            throws Exception {
-        String action = req.getParameter("action");
-        int id = Integer.parseInt(req.getParameter("id"));
+    
+    
+    
+    
+    private void doPostTipoUsuario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        
+        String action = req.getParameter("action"); // new || update
+        
+        int id = Integer.parseInt( req.getParameter("id") );
+        
+        String moduloAdministrativo = req.getParameter("modulo_administrativo");
+        if( moduloAdministrativo == null ) moduloAdministrativo = "N";
+        
+        String moduloAgendamento = req.getParameter("modulo_agendamento");
+        if( moduloAgendamento == null ) moduloAgendamento = "N";
+        
+        String moduloAtendimento = req.getParameter("modulo_atendimento");
+        if( moduloAtendimento == null ) moduloAtendimento = "N";
+        
+        TipoUsuario usTp = new TipoUsuario(id); // bean
+        usTp.setModuloAdministrativo(moduloAdministrativo);
+        usTp.setModuloAtendimento(moduloAtendimento);
+        usTp.setModuloAgendamento(moduloAgendamento);
+        
+        TipoUsuarioDAO dao = new TipoUsuarioDAO(); // dao
+        
+        if( action.equals("new") ) dao.insert( usTp );
+        
+        if( action.equals("update") ) dao.update( usTp );
+        
+        req.getRequestDispatcher("/home/app/adm/tipousuario.jsp").forward(req, resp);
+        
+    }
+    
+    private void doPostUsuario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        
+        String action = req.getParameter("action"); // new || update
+        
+        int id = Integer.parseInt( req.getParameter("id") );
         String nome = req.getParameter("nome");
         String senha = req.getParameter("senha");
-        String tipoUsuarioIdStr = req.getParameter("tipo_usuario_id");
-
-        Usuario usuario = new Usuario(id);
-        usuario.setNome(nome);
-        usuario.setSenha(senha);
+        int tipoUsuarioId = Integer.parseInt( req.getParameter("tipo_usuario_id") );
         
-        if (tipoUsuarioIdStr != null && !tipoUsuarioIdStr.isEmpty()) {
-            framework.dao.TipoUsuario tipoUsuario = new framework.dao.TipoUsuario(Integer.parseInt(tipoUsuarioIdStr));
-            usuario.setTipoUsuario(tipoUsuario);
+        Usuario us = new Usuario(id); // bean
+        us.setNome(nome);
+        
+        if( senha.length() > 20 ) {
+            us.setSenhaHash(senha);
         } else {
-            // Default ou erro se não tiver tipo_usuario_id, usando 1 como teste provisório
-            framework.dao.TipoUsuario tipoUsuario = new framework.dao.TipoUsuario(1);
-            usuario.setTipoUsuario(tipoUsuario);
+            us.setSenha(senha);
         }
-
-        UsuarioDAO dao = new UsuarioDAO();
-        if ("new".equals(action)) {
-            dao.insert(usuario);
-        } else if ("update".equals(action)) {
-            dao.update(usuario);
-        }
-
-        resp.sendRedirect(req.getContextPath() + "/home?task=usuario");
+        
+        us.setTipoUsuarioId(tipoUsuarioId);
+        
+        UsuarioDAO dao = new UsuarioDAO(); // dao
+        
+        if( action.equals("new") ) dao.insert( us );
+        
+        if( action.equals("update") ) dao.update( us );
+        
+        req.getRequestDispatcher("/home/app/adm/usuario.jsp").forward(req, resp);
+        
     }
+    
 
 }

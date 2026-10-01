@@ -8,34 +8,37 @@
         <title>Cadastro Usuário</title>
     </head>
     <body>
+        
         <%
             String action = "new";
-            Usuario usuario = null;
+            Usuario us = null;
             String id = request.getParameter("id");
-            if (id != null) {
-                usuario = new UsuarioDAO().getUnique(Integer.parseInt(id));
-                if (usuario != null) {
-                    action = "update";
-                }
+            if( id != null ) {
+                us = new UsuarioDAO().getUnique( Integer.parseInt( id ) );
+                
+                if( us != null ) action = "update";
             }
         %>
-
+        
         <h1>Cadastro Usuário</h1>
-        <form action="<%= request.getContextPath() %>/home?task=usuario&action=<%= action %>" method="post">
+        
+        <form action="/SGCMAQ3036782/home?task=usuario&action=<%= action %>" method="post">
+            
             <label for="id">Id:</label>
-            <input type="number" id="id" name="id"
-                   value="<%= usuario != null ? usuario.getId() : "" %>" required
-                   <%= usuario != null ? "readonly" : "" %>><br>
-
+            <input type="number" id="id" name="id" value="<%= us != null ? us.getId() : "" %>" required <%= us != null ? "readonly" : "" %>> <br/>
+            
             <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome"
-                   value="<%= usuario != null ? usuario.getNome() : "" %>"><br>
-
+            <input type="text" id="nome" name="nome" value="<%= us != null ? us.getNome() : "" %>"><br/>
+            
             <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha"
-                   value="<%= usuario != null ? usuario.getSenha() : "" %>" required><br>
-
+            <input type="password" id="senha" name="senha" value="<%= us != null ? us.getSenha() : "" %>" required><br/>
+            
+            <label for="tipo_usuario_id">Tipo Usuário Id:</label>
+            <input type="number" id="tipo_usuario_id" name="tipo_usuario_id" value="<%= us != null ? us.getTipoUsuarioId() : "" %>" required> <br/>
+            
             <input type="submit" value="Salvar">
+            
         </form>
+        
     </body>
 </html>
