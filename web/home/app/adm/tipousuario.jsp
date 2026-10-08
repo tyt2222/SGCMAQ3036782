@@ -47,5 +47,7 @@
             
         <button onclick="window.location.href='/SGCMAQ3036782/home/app/adm/tipousuario_form.jsp'">Adicionar</button>
         
+        
+        <%@include file="/home/app/modulos.jsp" %>
     </body>
 </html>
