@@ -252,6 +252,7 @@ public class FrontController extends HttpServlet {
             req.getRequestDispatcher("home/app/menu.jsp").forward(req, resp);
 
         } else {
+            req.setAttribute("msg", "id e/ou senha incorretos");
             req.getRequestDispatcher("home/login.jsp").forward(req, resp);
         }
 
