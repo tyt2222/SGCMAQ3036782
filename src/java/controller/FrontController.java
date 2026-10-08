@@ -25,7 +25,7 @@ public class FrontController extends HttpServlet {
 
             switch (task) {
 
-                case "Logout":
+                case "logout":
                     doGetLogout(req, resp);
                     break;
                 
@@ -100,7 +100,7 @@ public class FrontController extends HttpServlet {
             sessao.invalidate();
         }
 
-        req.getRequestDispatcher("/home/app/adm/tipousuario.jsp").forward(req, resp);
+        req.getRequestDispatcher("/home/login.jsp").forward(req, resp);
 
     }
 
@@ -231,7 +231,7 @@ public class FrontController extends HttpServlet {
         usTry.setSenha(senha);
 
         Cookie cookieId = new Cookie("id", String.valueOf(id));
-        cookieId.setMaxAge(60 * 4);
+        cookieId.setMaxAge(60 * 2);
         resp.addCookie(cookieId);
 
         if ((us != null) && (us.getSenha().equals(usTry.getSenha()))) {
@@ -249,10 +249,10 @@ public class FrontController extends HttpServlet {
             sessao.setAttribute("tipo_usuario_sessao", usTP);
             sessao.setAttribute("usuario_sessao", us);
 
-            req.getRequestDispatcher("home/app/menu.jsp").forward(req, resp);
+            req.getRequestDispatcher("/home/app/menu.jsp").forward(req, resp);
 
         } else {
-            req.getRequestDispatcher("home/login.jsp").forward(req, resp);
+            req.getRequestDispatcher("/home/login.jsp").forward(req, resp);
         }
 
     }
