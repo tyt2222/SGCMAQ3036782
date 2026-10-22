@@ -77,7 +77,14 @@ public class TipoUsuarioAPI extends HttpServlet {
 
         String json = getReader(req);
         TipoUsuario tipoUsuario = gson.fromJson(json, TipoUsuario.class);
+        TipoUsuarioDAO dao = new TipoUsuarioDAO();
         System.out.println(tipoUsuario);
+        
+        try {
+            dao.insert(tipoUsuario);
+            resp.set
+        } catch (Exception e) {
+        }
 
     }
 
