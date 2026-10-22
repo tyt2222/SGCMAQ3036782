@@ -28,7 +28,7 @@ public class FrontController extends HttpServlet {
                 case "Logout":
                     doGetLogout(req, resp);
                     break;
-                
+
                 case "tipousuario":
                     doGetTipoUsuario(req, resp);
                     break;
@@ -93,7 +93,7 @@ public class FrontController extends HttpServlet {
     private void doGetLogout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 
         HttpSession sessao = req.getSession(false);
-        
+
         if (sessao != null) {
             sessao.removeAttribute("tipo_usuario_sesao");
             sessao.removeAttribute("usuario_sessao");
@@ -203,6 +203,56 @@ public class FrontController extends HttpServlet {
         }
 
         us.setTipoUsuarioId(tipoUsuarioId);
+
+        String nascimento = req.getParameter("nascimento");
+        String logradouro = req.getParameter("logradouro");
+        String numero = req.getParameter("numero");
+        String bairro = req.getParameter("bairro");
+        String cidade = req.getParameter("cidade");
+        String estado = req.getParameter("estado");
+        String uf = req.getParameter("uf");
+        String cep = req.getParameter("cep");
+
+        if (nascimento.isBlank()) {
+            nascimento = null;
+        }
+
+        if (logradouro.isBlank()) {
+            logradouro = null;
+        }
+
+        if (numero.isBlank()) {
+            numero = null;
+        }
+
+        if (bairro.isBlank()) {
+            bairro = null;
+        }
+
+        if (cidade.isBlank()) {
+            cidade = null;
+        }
+
+        if (estado.isBlank()) {
+            estado = null;
+        }
+
+        if (uf.isBlank()) {
+            uf = null;
+        }
+
+        if (cep.isBlank()) {
+            cep = null;
+        }
+
+        us.setNascimento(nascimento);
+        us.setLogradouro(logradouro);
+        us.setNumero(numero);
+        us.setBairro(bairro);
+        us.setCidade(cidade);
+        us.setEstado(estado);
+        us.setUf(uf);
+        us.setCep(cep);
 
         UsuarioDAO dao = new UsuarioDAO(); // dao
 

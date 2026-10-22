@@ -22,6 +22,15 @@
                 <th>Id</th>
                 <th>Nome</th>
                 <th>Tipo Usuário Id</th>
+                <th>Nascimento</th>
+                <th>Logradouro</th>
+                <th>Numero</th>
+                <th>Bairro</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>Uf</th>
+                <th>Cep</th>
+                
                 <th></th>
                 <th></th>
             </tr>
@@ -32,6 +41,14 @@
                     <td><%= us.getId() %></td>
                     <td><%= us.getNome() %></td>
                     <td><%= us.getTipoUsuarioId() %></td>
+                    <td><%= us.getNascimento() != null ? us.getNascimento(): "-" %></td>
+                    <td><%= us.getLogradouro() != null ? us.getLogradouro(): "-" %></td>
+                    <td><%= us.getNumero() != null ? us.getNumero(): "-" %></td>
+                    <td><%= us.getBairro() != null ? us.getBairro(): "-" %></td>
+                    <td><%= us.getCidade() != null ? us.getCidade(): "-" %></td>
+                    <td><%= us.getEstado() != null ? us.getEstado(): "-" %></td>
+                    <td><%= us.getUf() != null ? us.getUf(): "-" %></td>
+                    <td><%= us.getCep() != null ? us.getCep(): "-" %></td>
                     
                     <td><a href="/SGCMAQ3036782/home/app/adm/usuario_form.jsp?id=<%= us.getId() %>">Alterar</a></td>
                     
