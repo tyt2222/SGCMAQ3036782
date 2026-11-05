@@ -64,6 +64,9 @@
 
             <input type="button" value="buscar_endereco" name="buscar_endereco" onclick="buscar_endereco_cep()"/>
 
+            <label for="convenio_id">Convênio Id:</label>
+            <input type="text" pattern="[0-9]*" id="convenio_id" name="convenio_id" value="<%= (us != null) && (us.getConvenioId() != null) ? us.getConvenioId() : "" %>"> <br/>
+
             <input type="submit" value="Salvar">
 
         </form>

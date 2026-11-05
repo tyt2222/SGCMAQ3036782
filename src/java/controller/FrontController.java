@@ -2,6 +2,8 @@ package controller;
 
 import framework.dao.TipoUsuario;
 import framework.dao.TipoUsuarioDAO;
+import framework.dao.Convenio;
+import framework.dao.ConvenioDAO;
 import framework.dao.Usuario;
 import framework.dao.UsuarioDAO;
 import java.io.IOException;
@@ -37,6 +39,10 @@ public class FrontController extends HttpServlet {
                     doGetUsuario(req, resp);
                     break;
 
+                case "convenio":
+                    doGetConvenio(req, resp);
+                    break;
+
                 case null:
                 default:
                     doDefault(req, resp);
@@ -69,6 +75,10 @@ public class FrontController extends HttpServlet {
 
                 case "usuario":
                     doPostUsuario(req, resp);
+                    break;
+
+                case "convenio":
+                    doPostConvenio(req, resp);
                     break;
 
                 case null:
@@ -141,6 +151,26 @@ public class FrontController extends HttpServlet {
         }
 
         req.getRequestDispatcher("/home/app/adm/usuario.jsp").forward(req, resp);
+
+    }
+
+    private void doGetConvenio(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+
+        String action = req.getParameter("action");
+
+        if ((action != null) && (action.equals("delete"))) {
+
+            int id = Integer.parseInt(req.getParameter("id"));
+
+            Convenio cv = new Convenio(id); // bean
+
+            ConvenioDAO dao = new ConvenioDAO(); // dao
+
+            dao.delete(cv);
+
+        }
+
+        req.getRequestDispatcher("/home/app/adm/convenio.jsp").forward(req, resp);
 
     }
 
@@ -245,6 +275,11 @@ public class FrontController extends HttpServlet {
             cep = null;
         }
 
+        String convenioId = req.getParameter("convenio_id");
+        if (convenioId.isBlank()) {
+            convenioId = null;
+        }
+
         us.setNascimento(nascimento);
         us.setLogradouro(logradouro);
         us.setNumero(numero);
@@ -253,6 +288,11 @@ public class FrontController extends HttpServlet {
         us.setEstado(estado);
         us.setUf(uf);
         us.setCep(cep);
+        if (convenioId != null) {
+            us.setConvenioId(Integer.parseInt(convenioId));
+        } else {
+            us.setConvenioId(null);
+        }
 
         UsuarioDAO dao = new UsuarioDAO(); // dao
 
@@ -265,6 +305,50 @@ public class FrontController extends HttpServlet {
         }
 
         req.getRequestDispatcher("/home/app/adm/usuario.jsp").forward(req, resp);
+
+    }
+
+    private void doPostConvenio(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+
+        String action = req.getParameter("action"); // new || update
+
+        int id = Integer.parseInt(req.getParameter("id"));
+
+        String nome = req.getParameter("nome");
+        if (nome.isBlank()) {
+            nome = null;
+        }
+
+        String cnpj = req.getParameter("cnpj");
+        if (cnpj.isBlank()) {
+            cnpj = null;
+        }
+
+        String telefone = req.getParameter("telefone");
+        if (telefone.isBlank()) {
+            telefone = null;
+        }
+
+        double valor = Double.parseDouble(req.getParameter("valor"));
+
+        Convenio cv = new Convenio(id);
+
+        cv.setNome(nome);
+        cv.setCnpj(cnpj);
+        cv.setTelefone(telefone);
+        cv.setValor(valor);
+
+        ConvenioDAO dao = new ConvenioDAO();
+
+        if (action.equals("new")) {
+            dao.insert(cv);
+        }
+
+        if (action.equals("update")) {
+            dao.update(cv);
+        }
+
+        req.getRequestDispatcher("/home/app/adm/convenio.jsp").forward(req, resp);
 
     }
 

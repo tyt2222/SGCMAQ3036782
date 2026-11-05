@@ -31,6 +31,7 @@
     <% if((tipoUsuarioSessao != null) && (tipoUsuarioSessao.getModuloAdministrativo().equals("S"))){%>
         
         <li><a href="/SGCMAQ3036782/home/app/adm/tipousuario.jsp">Tipos Usuario</a></li>
+        <li><a href="/SGCMAQ3036782/home/app/adm/convenio.jsp">Convênios</a></li>
         <li><a href="/SGCMAQ3036782/home/app/adm/usuario.jsp">Usuarios</a></li>
     
     <%}%>

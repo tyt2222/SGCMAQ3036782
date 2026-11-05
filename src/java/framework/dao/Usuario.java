@@ -17,6 +17,7 @@ public class Usuario {
     private String estado;
     private String uf;
     private String cep;
+    private Integer convenioId;
 
     public Usuario(int id) {
         setId(id);
@@ -142,6 +143,14 @@ public class Usuario {
 
     public void setCep(String cep) {
         this.cep = cep;
+    }
+
+    public Integer getConvenioId() {
+        return convenioId;
+    }
+
+    public void setConvenioId(Integer convenioId) {
+        this.convenioId = convenioId;
     }
 
 }

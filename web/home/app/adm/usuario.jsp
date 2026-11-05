@@ -30,6 +30,7 @@
                 <th>Estado</th>
                 <th>Uf</th>
                 <th>Cep</th>
+                <th>Convênio</th>
                 
                 <th></th>
                 <th></th>
@@ -49,6 +50,7 @@
                     <td><%= us.getEstado() != null ? us.getEstado(): "-" %></td>
                     <td><%= us.getUf() != null ? us.getUf(): "-" %></td>
                     <td><%= us.getCep() != null ? us.getCep(): "-" %></td>
+                    <td><%= us.getConvenioId() != null ? us.getConvenioId() : "-" %></td>
                     
                     <td><a href="/SGCMAQ3036782/home/app/adm/usuario_form.jsp?id=<%= us.getId() %>">Alterar</a></td>
                     

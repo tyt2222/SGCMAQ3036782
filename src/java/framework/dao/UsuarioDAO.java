@@ -14,7 +14,7 @@ public class UsuarioDAO extends DataAccessObject<Usuario> {
 
         Connection connection = DataBaseConnections.getInstance().getConnection();
 
-        String dml = "INSERT INTO usuario (id, nome, senha, tipo_usuario_id, nascimento, logradouro, numero, bairro, cidade, estado, uf, cep) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String dml = "INSERT INTO usuario (id, nome, senha, tipo_usuario_id, nascimento, logradouro, numero, bairro, cidade, estado, uf, cep, convenio_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         PreparedStatement preparedStatement = connection.prepareStatement(dml);
 
@@ -30,6 +30,7 @@ public class UsuarioDAO extends DataAccessObject<Usuario> {
         preparedStatement.setString(10, t.getEstado());
         preparedStatement.setString(11, t.getUf());
         preparedStatement.setString(12, t.getCep());
+        preparedStatement.setObject(13, t.getConvenioId());
 
         if (AppConfig.getInstance().getConfig("settings", "verbose").equals("true")) {
             System.out.println(preparedStatement);
@@ -47,7 +48,7 @@ public class UsuarioDAO extends DataAccessObject<Usuario> {
 
         Connection connection = DataBaseConnections.getInstance().getConnection();
 
-        String dml = "UPDATE usuario SET nome = ?, senha = ?, tipo_usuario_id = ?, nascimento = ?, logradouro = ?, numero = ?, bairro = ?, cidade = ?, estado = ?, uf = ?, cep = ? WHERE id = ?";
+        String dml = "UPDATE usuario SET nome = ?, senha = ?, tipo_usuario_id = ?, nascimento = ?, logradouro = ?, numero = ?, bairro = ?, cidade = ?, estado = ?, uf = ?, cep = ?, convenio_id = ? WHERE id = ?";
 
         PreparedStatement preparedStatement = connection.prepareStatement(dml); 
         
@@ -62,7 +63,8 @@ public class UsuarioDAO extends DataAccessObject<Usuario> {
         preparedStatement.setString(9, t.getEstado());
         preparedStatement.setString(10, t.getUf());
         preparedStatement.setString(11, t.getCep());
-        preparedStatement.setInt(12, t.getId());
+        preparedStatement.setObject(12, t.getConvenioId());
+        preparedStatement.setInt(13, t.getId());
 
         if (AppConfig.getInstance().getConfig("settings", "verbose").equals("true")) {
             System.out.println(preparedStatement);
@@ -137,7 +139,11 @@ public class UsuarioDAO extends DataAccessObject<Usuario> {
             resultado.setEstado((String) resultSet.getObject(10));
             resultado.setUf((String) resultSet.getObject(11));
             resultado.setCep((String) resultSet.getObject(12));
-            
+            if (resultSet.getObject(13) == null) {
+                resultado.setConvenioId(null);
+            } else {
+                resultado.setConvenioId((int) resultSet.getObject(13));
+            }
 
         }
 
@@ -180,6 +186,11 @@ public class UsuarioDAO extends DataAccessObject<Usuario> {
             usuario.setEstado((String) resultSet.getObject(10));
             usuario.setUf((String) resultSet.getObject(11));
             usuario.setCep((String) resultSet.getObject(12));
+            if (resultSet.getObject(13) == null) {
+                usuario.setConvenioId(null);
+            } else {
+                usuario.setConvenioId((int) resultSet.getObject(13));
+            }
 
             resultado.add(usuario);
 

@@ -10,6 +10,15 @@ modulo_atendimento varchar(1) not null,
 primary key (id)
 );
 
+create table convenio (
+id int not null,
+nome varchar(45) not null,
+cnpj varchar(45),
+telefone varchar(20),
+valor float not null,
+primary key (id)
+);
+
 create table usuario (
 id int not null,
 nome varchar(50),
@@ -23,8 +32,10 @@ cidade varchar(100),
 estado varchar(50),
 uf varchar(2),
 cep varchar(10),
+convenio_id int,
 primary key (id),
-foreign key (tipo_usuario_id) references tipo_usuario(id)
+foreign key (tipo_usuario_id) references tipo_usuario(id),
+foreign key (convenio_id) references convenio(id)
 );
 
 describe usuario;
@@ -41,4 +52,3 @@ VALUES (
 SHA2(CONCAT(1, 'admin'), 256),
 1
 );
-
